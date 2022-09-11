@@ -6,15 +6,32 @@
 		  content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Document</title>
-	<script src="https://unpkg.com/vue@3"></script>
+	<script src="https://unpkg.com/vue@3"> </script>
+	
+	<style>
+		html, body {
+			height: 100%;
+		}
+		
+		body {
+			display: grid;
+			place-items: center;
+		}
+		
+		.text-red {
+			color: red;
+		}
+		
+		.text-green {
+			color: greenyellow;
+		}
+	</style>
 </head>
 <body>
 	<div id="app">
 		<p>
-			<input type="text" v-model="greeting" />
-		</p>
-		<p>
-			{{ greeting }} ({{greeting.length}})
+			<!-- Bind Attribute named buttonClasses to this expression -->
+			<button :class="active ? 'text-red' : 'text-green'" @click="toggle">Click Me</button>
 		</p>
 	</div>
 
@@ -22,15 +39,15 @@
 		Vue.createApp({
 			data() {
 				return {
-					greeting: 'Hello World'
+					active: false
 				}
 			},
 			
-			mounted() {
-				setTimeout(() => {
-					this.greeting = 'Updated'
-				}, 3000)
-			}
+			methods: {
+				toggle() {
+					this.active = !this.active;
+				},
+			},
 		}).mount('#app');
 	</script>
 </body>
