@@ -1,18 +1,14 @@
 import AssignmentList from "./AssignmentList.js";
+import AssignmentCreate from "./AssignmentCreate.js";
 
 export default {
-  components: { AssignmentList },
+  components: { AssignmentList, AssignmentCreate },
   template: `
       <section class="space-y-6">
         <assignment-list :assignments="filters.inProgress" title="In Progress Assignments" ></assignment-list>
         <assignment-list :assignments="filters.completed" title="Completed" ></assignment-list>
       
-        <form @submit.prevent="add">
-          <div>
-            <input v-model='newAssignment' placeholder="New assignment..." class="text-black mr-2" />
-            <button type="submit" class="bg-white text-black p-2 rounded">Add</button>
-          </div>
-        </form>
+        <assignment-create @add="add"></assignment-create>
       </section>
         `,
   data() {
@@ -22,28 +18,23 @@ export default {
         { id: 2, name: "Read chapter 4", complete: true },
         { id: 3, name: "Turn in homework", complete: false },
       ],
-
-      newAssignment: "",
     };
   },
-  //Cached methods: useMemo
+  methods: {
+    add(name) {
+      this.assignments.push({
+        name: name,
+        completed: false,
+        id: this.assignments.length + 1,
+      });
+    },
+  },
   computed: {
     filters() {
       return {
         inProgress: this.assignments.filter((a) => !a.complete),
         completed: this.assignments.filter((a) => a.complete),
       };
-    },
-  },
-
-  methods: {
-    add() {
-      this.assignments.push({
-        name: this.newAssignment,
-        completed: false,
-        id: this.assignments.length + 1
-      });
-      this.newAssignment = '';
     },
   },
 };
