@@ -1,54 +1,71 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="h-full">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport"
 		  content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>Document</title>
-	<script src="https://unpkg.com/vue@3"> </script>
-	
-	<style>
-		html, body {
-			height: 100%;
-		}
-		
-		body {
-			display: grid;
-			place-items: center;
-		}
-		
-		.text-red {
-			color: red;
-		}
-		
-		.text-green {
-			color: greenyellow;
-		}
-	</style>
+	<script src="https://unpkg.com/vue@3"></script>
+	<script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="h-full grid place-items-center">
 	<div id="app">
-		<p>
-			<!-- Bind Attribute named buttonClasses to this expression -->
-			<button :class="active ? 'text-red' : 'text-green'" @click="toggle">Click Me</button>
-		</p>
+		<section v-if="inProgressAssignments.length">
+			<h2 class="font-bold mb-2">Assignments</h2>
+			
+			<ul>
+				<li v-for="assignment in inProgressAssignments" :key="assignment.id">
+					{{assignment.name}}
+					<input type="checkbox" v-model="assignment.complete"/>
+				</li>
+			</ul>
+<!--			-->
+<!--			<pre>-->
+<!--				{{assignments}}-->
+<!--			</pre>-->
+		</section>
+		
+		<!-- v-show sets display to none, v-if does not render the component -->
+		<section v-show="completedAssignments.length" class="mt-8">
+			<h2 class="font-bold mb-2">Completed Assignments</h2>
+			
+			<ul>
+				<li
+					v-for="assignment in completedAssignments"
+					:key="assignment.id"
+				>
+					{{assignment.name}}
+					<input type="checkbox" v-model="assignment.complete"/>
+				</li>
+			</ul>
+		</section>
 	</div>
 
 	<script>
-		Vue.createApp({
+		const app = {
 			data() {
 				return {
-					active: false
+					assignments: [
+						{ id: 1, name: 'Finish project', complete: false },
+						{ id: 2, name: 'Read chapter 4', complete: true },
+						{ id: 3, name: 'Turn in homework', complete: false }
+					]
 				}
 			},
-			
-			methods: {
-				toggle() {
-					this.active = !this.active;
+			//Cached methods: useMemo
+			computed: {
+				inProgressAssignments() {
+					return this.assignments.filter(a => !a.complete)
 				},
-			},
-		}).mount('#app');
+				
+				completedAssignments() {
+					return this.assignments.filter(a => a.complete)
+				}
+			}
+		};
+		// Mount the component
+		Vue.createApp(app).mount('#app');
 	</script>
 </body>
 </html>
