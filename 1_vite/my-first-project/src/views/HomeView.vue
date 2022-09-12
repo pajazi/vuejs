@@ -1,14 +1,17 @@
 <script setup>
-import TheWelcome from "@/components/TheWelcome.vue";
-import { useFlash } from '@/composables/useFlash'
-let { flash } = useFlash()
+import TheWelcome from '@/components/TheWelcome.vue'
+import { useStorage } from '@/composables/useStorage'
+
+let food = useStorage('food')
+
 </script>
 
 <template>
-  <main>
-    <TheWelcome />
-    {{message}}
-
-    <button @click="flash('It works!')">Click me!</button>
-  </main>
+    <main>
+        <input
+            type="text"
+            placeholder="What is your favourte food?"
+            v-model="food"
+        />
+    </main>
 </template>
