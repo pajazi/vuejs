@@ -22,3 +22,5 @@ export let useCounterStore = defineStore('counter', {
         }
     }
 })
+//Checkout Transition for classes & animations
+//Teleport for biding a html element to a different parent
