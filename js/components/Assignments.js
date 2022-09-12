@@ -4,22 +4,20 @@ import AssignmentCreate from "./AssignmentCreate.js";
 export default {
   components: { AssignmentList, AssignmentCreate },
   template: `
-      <section class="space-y-6">
-        <assignment-list :assignments="filters.inProgress" title="In Progress Assignments" ></assignment-list>
+      <section class="flex gap-8">
+        <assignment-list :assignments="filters.inProgress" title="In Progress Assignments" >
+          <assignment-create @add="add"></assignment-create>
+        </assignment-list>
         <assignment-list :assignments="filters.completed" title="Completed" ></assignment-list>
-      
-        <assignment-create @add="add"></assignment-create>
       </section>
         `,
+
   data() {
     return {
-      assignments: [
-        { id: 1, name: "Finish project", complete: false },
-        { id: 2, name: "Read chapter 4", complete: true },
-        { id: 3, name: "Turn in homework", complete: false },
-      ],
+      assignments: [],
     };
   },
+
   methods: {
     add(name) {
       this.assignments.push({
@@ -29,6 +27,13 @@ export default {
       });
     },
   },
+
+  created() {
+    fetch("http://localhost:3001/assignments")
+      .then((r) => r.json())
+      .then((assignments) => this.assignments = assignments);
+  },
+
   computed: {
     filters() {
       return {
