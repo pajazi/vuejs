@@ -1,17 +1,18 @@
 <script setup>
-import TheWelcome from '@/components/TheWelcome.vue'
-import { useStorage } from '@/composables/useStorage'
+import TabbableTextarea from '@/components/TabbableTextarea.vue'
+import { ref } from 'vue'
 
-let food = useStorage('food')
+let comment = ref('test value');
 
 </script>
 
 <template>
     <main>
-        <input
-            type="text"
-            placeholder="What is your favourte food?"
-            v-model="food"
-        />
+        <form>
+            <TabbableTextarea
+                v-model="comment"
+                style="width: 100%; height: 300px"
+            />
+        </form>
     </main>
 </template>
