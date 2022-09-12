@@ -1,15 +1,7 @@
 <script setup>
 import TheWelcome from "@/components/TheWelcome.vue";
-import { onMounted, ref } from "vue";
-
-//EXPERIMENTAL $ sign for not using ref.value only using ref = 'new value update'
-const message = $ref("Hello, World!");
-
-onMounted(() => {
-  // message.value = 'qweqwew';
-  message = 'Payche';
-})
-
+import { useFlash } from '@/composables/useFlash'
+let { flash } = useFlash()
 </script>
 
 <template>
@@ -17,6 +9,6 @@ onMounted(() => {
     <TheWelcome />
     {{message}}
 
-    <input v-model="message" />
+    <button @click="flash('It works!')">Click me!</button>
   </main>
 </template>
